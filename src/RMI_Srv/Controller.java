@@ -16,18 +16,34 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class Controller {
 	public static void main (String[] args){
-		if(System.getSecurityManager() == null)
-			System.setSecurityManager(new SecurityManager());//Security Manager setzen
+		boolean a = true;
+		int port = 0;
+		if(args.length > 0)
+			if(args[0].charAt(0) == 'd'){
+				a = false;
+				port = 1099;
+			}else{
+				a = false;
+				port = Integer.parseInt(args[0]);
+			}
 		
-		try{
-			String name = "test";
-			RMI_Interface tt = new Srv(); //Erstellt einen neuen Server
-			RMI_Interface stub = (RMI_Interface) UnicastRemoteObject.exportObject(tt,1234);//Stellt das Server objekt auf dem port 1234 zur verfügung
-			Registry reg = LocateRegistry.createRegistry(1099);//Erstellt eine Registry auf dem Port 1099
-			reg.rebind(name,  stub); // bindet den Server an die regestry unter den namen test
-			System.out.println("Gebunden!");
-		}catch(Exception e){
-			System.err.println("Fehler: " +e.getMessage());
+		if(a)
+			System.out.println("Falsche eingabe! \n Bitte Port eingeben <port> \n d defaultwert (1099");
+		else{
+			
+			if(System.getSecurityManager() == null)
+				System.setSecurityManager(new SecurityManager());//Security Manager setzen
+		
+			try{
+				String name = "test";
+				RMI_Interface tt = new Srv(); //Erstellt einen neuen Server
+				RMI_Interface stub = (RMI_Interface) UnicastRemoteObject.exportObject(tt,1234);//Stellt das Server objekt auf dem port 1234 zur verfügung
+				Registry reg = LocateRegistry.createRegistry(1099);//Erstellt eine Registry auf dem Port 1099
+				reg.rebind(name,  stub); // bindet den Server an die regestry unter den namen test
+				System.out.println("Gebunden!");
+			}catch(Exception e){
+				System.err.println("Fehler: " +e.getMessage());
+			}
 		}
 	}
 }
