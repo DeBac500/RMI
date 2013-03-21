@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JavaChat" default="compile" basedir=".">
+
+	<property name="src.dir" value="src" />
+	<property name="doc.dir" location="doc"/>
+	<property name="build.dir" value="bin" />
+	<property name="lib.dir" value="lib" />
+
+	<path id="project.classpath">
+			<pathelement location="${build.dir}" />
+		<fileset dir="${lib.dir}">	
+			<include name="*.jar"/>	
+		</fileset>
+	</path>
+	
+	<target name="compile"  description="Compile project.">
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="project.classpath" debug="true" deprecation="true" includeantruntime="false" />
+	</target>
+
+	<target name="start-server" depends="compile" description="Run server.">
+		<java classname="RMI_Srv.Controller" fork="true" classpathref="project.classpath" >
+			<sysproperty value="java.policy" key="java.security.policy"></sysproperty>
+			<arg line="d"/>
+		</java>
+	</target>
+	
+	<target name="start-client"  depends="compile" description="Run server." >
+		<java classname="Client.Client_Controller" fork="true" classpathref="project.classpath">
+			<sysproperty value="java.policy" key="java.security.policy"></sysproperty>
+			<arg line="d"/>
+		</java>
+	</target>
+	<!-- Generate javadocs for current project into ${doc.dir} -->
+	<target name="create-doc" depends="compile" description="generate documentation">
+		<javadoc sourcepath="${src.dir}" destdir="${doc.dir}" />
+	</target>
+	<target name="clean" description="Clean build products.">
+		<delete dir="${build.dir}" />
+	</target>
+	
+	 <target name="clean-doc" description="Clean build products.">
+        <delete dir="${doc.dir}"/>
+    </target>
+	
+
+
+	<target name="rebuild" depends="clean, compile" description="Clean and build products." />
+
+</project>
