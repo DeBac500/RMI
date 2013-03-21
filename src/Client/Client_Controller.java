@@ -12,9 +12,11 @@ public class Client_Controller {
 		
 		try{
 			String name = "test";
-			Registry reg = LocateRegistry.getRegistry(1099);
+			Registry reg = LocateRegistry.getRegistry("10.0.0.3",1099);
+			System.out.println("t1");
 			RMI_Interface tt = (RMI_Interface) reg.lookup(name);
-			Double d = tt.dosomething(3.0);
+			System.out.println("t2");
+			Double d = tt.dosomething(2.0);
 			System.out.println("Ergebniss = " + d);
 		}catch (Exception e){
 			System.err.println("Fehler: " + e.getMessage());
