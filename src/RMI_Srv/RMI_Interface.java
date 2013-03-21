@@ -1,8 +1,8 @@
-package RMI;
+package RMI_Srv;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;;
 
 public interface RMI_Interface extends Remote{
-	public Integer dosomething(int i) throws RemoteException;
+	public Double dosomething(double i) throws RemoteException;
 }
